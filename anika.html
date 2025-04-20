@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smokey</title>
+  <link rel="shortcut icon" href="anika.jpg" type="image/x-icon">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('anikaBg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    
+    img {
+      width: 180px;
+      height: 180px;
+      border-radius: 20%;
+      object-fit: cover;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin: 0.5rem 0;
+      background-color: #853757;
+      border-radius: 10px;
+      color: aliceblue;
+      padding-right: 20px;
+      padding-bottom: 5px;
+      padding-left: 20px;
+    }
+    p {
+      font-size: 1.1rem;
+      color: #ffffff;
+      font-weight: bold;
+    }
+    .buttons {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .buttons a {
+      background: #3a0032;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .buttons a:hover {
+      background: #9b0086;
+    }
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+
+
+    #snow-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="anika.jpg" alt="Foto Profil" />
+  
+  <h1>Smokey</h1>
+  <p>"Anime Lovers🍜💻"</p>
+
+  <div class="buttons">
+    <a href="https://wa.me/918980121918" target="_blank">WhatsApp</a>
+  </div>
+
+  <footer>
+    &copy; 2025 | Just for fun & vibes 🤙
+  </footer>
+
+  <canvas id="snow-canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById("snow-canvas");
+    const ctx = canvas.getContext("2d");
+  
+    // Ukuran canvas mengikuti jendela browser
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  
+    // Bikin salju
+    const snowflakes = [];
+    const maxFlakes = 100;
+  
+    for (let i = 0; i < maxFlakes; i++) {
+      snowflakes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 3 + 1,
+        speedY: Math.random() * 1 + 0.5,
+        speedX: Math.random() * 0.5 - 0.25
+      });
+    }
+  
+    function drawSnowflakes() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white";
+      ctx.beginPath();
+      for (let flake of snowflakes) {
+        ctx.moveTo(flake.x, flake.y);
+        ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
+      }
+      ctx.fill();
+      updateSnowflakes();
+    }
+  
+    function updateSnowflakes() {
+      for (let flake of snowflakes) {
+        flake.y += flake.speedY;
+        flake.x += flake.speedX;
+  
+        // Reset ke atas jika sudah jatuh ke bawah
+        if (flake.y > canvas.height) {
+          flake.y = -flake.radius;
+          flake.x = Math.random() * canvas.width;
+        }
+      }
+    }
+  
+    function animateSnow() {
+      drawSnowflakes();
+      requestAnimationFrame(animateSnow);
+    }
+  
+    animateSnow();
+  
+    // Resize canvas saat layar berubah
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
